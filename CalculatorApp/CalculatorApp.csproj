@@ -1,0 +1,24 @@
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- PropertyGroup defines settings for this project -->
+  <PropertyGroup>
+    <!-- TargetFramework: which .NET version your project uses -->
+    <TargetFramework>net8.0</TargetFramework>
+
+    <!-- OutputType: since it's a console app, not a class library -->
+    <OutputType>Exe</OutputType>
+
+    <!-- Nullable reference types enabled (optional, for better code safety) -->
+    <Nullable>enable</Nullable>
+
+    <!-- Generate XML documentation (optional, helps SonarQube read comments) -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- ItemGroup lists dependencies/packages if needed -->
+  <ItemGroup>
+    <!-- Currently, no external NuGet packages required -->
+  </ItemGroup>
+
+</Project>
