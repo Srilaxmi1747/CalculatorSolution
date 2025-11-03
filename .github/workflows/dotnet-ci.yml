@@ -32,10 +32,13 @@ jobs:
       # 5️⃣ Run tests with Cobertura coverage (XML)
       - name: Test with coverage
         run: |
-          dotnet test --no-build --configuration Release \
-            /p:CollectCoverage=true \
-            /p:CoverletOutput=CalculatorApp.Tests/TestResults/coverage.cobertura.xml \
-            /p:CoverletOutputFormat=cobertura
+             dotnet test --no-build --configuration Release \
+             /p:CollectCoverage=true \
+             /p:CoverletOutput=CalculatorApp.Tests/TestResults/coverage.cobertura.xml \
+             /p:CoverletOutputFormat=cobertura \
+             /p:UseSourceLink=false \
+             /p:ExcludeByAttribute="Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute"
+
 
       # 6️⃣ SonarCloud Analysis
       - name: SonarCloud Scan
