@@ -1,4 +1,5 @@
 using Xunit;
+using CalculatorApp;   // ✅ Add this line
 
 namespace CalculatorApp.Tests
 {
@@ -13,3 +14,4 @@ namespace CalculatorApp.Tests
         }
     }
 }
+
