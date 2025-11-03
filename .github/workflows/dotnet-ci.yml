@@ -28,16 +28,15 @@ jobs:
       # 4️⃣ Build
       - name: Build
         run: dotnet build --no-restore --configuration Release
-
-      # 5️⃣ Run tests with Cobertura coverage (XML)
+# 5️⃣ Run tests with Cobertura coverage (XML)
       - name: Test with coverage
         run: |
              dotnet test --no-build --configuration Release \
              /p:CollectCoverage=true \
              /p:CoverletOutput=CalculatorApp.Tests/TestResults/coverage.cobertura.xml \
              /p:CoverletOutputFormat=cobertura \
-             /p:UseSourceLink=false \
-             /p:ExcludeByAttribute="Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute"
+             /p:UseSourceLink=false
+
 
 
       # 6️⃣ SonarCloud Analysis
