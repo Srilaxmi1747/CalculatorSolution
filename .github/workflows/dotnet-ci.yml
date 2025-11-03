@@ -29,11 +29,15 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
-      # 5️⃣ Run tests with Coverlet
+      # 5️⃣ Run tests with Cobertura coverage (XML)
       - name: Test with coverage
-        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+        run: |
+          dotnet test --no-build --configuration Release \
+            /p:CollectCoverage=true \
+            /p:CoverletOutput=CalculatorApp.Tests/TestResults/coverage.cobertura.xml \
+            /p:CoverletOutputFormat=cobertura
 
-      # 6️⃣ SonarQube Analysis
+      # 6️⃣ SonarCloud Analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
@@ -41,13 +45,15 @@ jobs:
             -Dsonar.organization=srilaxmi1747
             -Dsonar.projectKey=Srilaxmi1747_CalculatorSolution
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.coverageReportPaths=CalculatorApp.Tests/TestResults/coverage.xml
+            -Dsonar.coverageReportPaths=CalculatorApp.Tests/TestResults/coverage.cobertura.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                # 7️⃣ (Optional) Upload coverage report as artifact
+
+      # 7️⃣ Upload coverage report (optional)
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: CalculatorApp.Tests/TestResults/coverage.info
+          path: CalculatorApp.Tests/TestResults/coverage.cobertura.xml
+
