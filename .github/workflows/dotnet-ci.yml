@@ -30,15 +30,14 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       # 5️⃣ Run tests with Cobertura coverage (XML)
-      - name: Test with coverage
-        run: |
-          dotnet test --no-build --configuration Release \
-            /p:CollectCoverage=true \
-            /p:CoverletOutput=CalculatorApp.Tests/TestResults/coverage.cobertura.xml \
-            /p:CoverletOutputFormat=cobertura \
-            /p:UseSourceLink=false \
-            "/p:ExcludeByAttribute=Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute"
-
+      - name: Run Tests & Generate Coverage
+        run: >
+             dotnet test --no-build --configuration Release
+             /p:CollectCoverage=true
+             /p:CoverletOutputFormat=lcov
+             /p:CoverletOutput=./coverage/
+             /p:Exclude="[*.Tests]*"
+             && find . -name "coverage.info" -exec cp {} ./coverage.info \;
       # 6️⃣ SonarCloud Analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
