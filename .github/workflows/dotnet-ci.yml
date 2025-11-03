@@ -35,13 +35,13 @@ jobs:
 
       # 6️⃣ SonarQube Analysis
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
           args: >
             -Dsonar.organization=srilaxmi1747
             -Dsonar.projectKey=Srilaxmi1747_CalculatorSolution
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.coverageReportPaths=CalculatorApp.Tests/TestResults/coverage.info
+            -Dsonar.coverageReportPaths=CalculatorApp.Tests/TestResults/coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
