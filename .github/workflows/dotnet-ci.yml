@@ -29,21 +29,24 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
-      # 5️⃣ Run tests with Cobertura coverage (XML)
+      # 5️⃣ Run Tests & Generate Coverage
       - name: Run Tests & Generate Coverage
-        run: >
-          dotnet test --no-build --configuration Release
-          /p:CollectCoverage=true
-          /p:CoverletOutputFormat=cobertura
-          /p:CoverletOutput=./coverage/
-          /p:Exclude="[*.Tests]*"
-          && find ./coverage -name "coverage.cobertura.xml" -exec cp {} ./coverage.cobertura.xml \;
+        run: |
+          mkdir -p coverage                      # ✅ ensures folder exists
+          dotnet test --no-build --configuration Release \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=cobertura \
+            /p:CoverletOutput=./coverage/ \
+            /p:Exclude="[*.Tests]*"
+          # Copy report safely (won’t fail if missing)
+          find ./coverage -name "coverage.cobertura.xml" -exec cp {} ./coverage.cobertura.xml \; || echo "No coverage file found"
+
       # 6️⃣ SonarCloud Analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.organization=srilaxmi1747
@@ -51,9 +54,9 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.cs.vscoveragexml.reportsPaths=coverage.cobertura.xml
 
-      # 7️⃣ Upload coverage report (optional)
+      # 7️⃣ Upload coverage artifact (optional)
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: CalculatorApp.Tests/TestResults/coverage.cobertura.xml
+          path: coverage.cobertura.xml
