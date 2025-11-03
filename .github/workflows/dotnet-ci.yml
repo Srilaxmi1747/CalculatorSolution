@@ -36,6 +36,7 @@ jobs:
              /p:CoverletOutput=CalculatorApp.Tests/TestResults/coverage.cobertura.xml \
              /p:CoverletOutputFormat=cobertura \
              /p:UseSourceLink=false
+             /p:IncludeDirectory=$(pwd)
 
 
 
